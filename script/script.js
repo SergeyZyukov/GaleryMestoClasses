@@ -1,6 +1,15 @@
-const fotoSet = new PlacesList(document.querySelector('.places-list'), initialCards);
+
 const popup = new Popup(document.querySelector('.popup-list'));
+
 const formValidator = new FormValidator(document.forms);
+
+const createCard = (...args) => new Card(...args);
+
+const fotoSet = new PlacesList(document.querySelector('.places-list'), createCard);
+
+fotoSet.render(initialCards);
+
+const userInfo = new UserInfo({});
 
 /* Кнопка актив/дизактив */
 function onInputButton(button, onOff) {
@@ -21,16 +30,20 @@ function submitHandlerForm(event) {
   const forma = event.target.closest('.popup__form');
   const name = event.target.elements.name.value;
   const linkabout = event.target.elements.linkabout.value;
-  const userInfo = new UserInfo(name, linkabout);
+  const userData = {
+    userName: name,
+    userAbout: linkabout
+  };
     
   if (forma === document.newPlace) {
     fotoSet.addCard(name, linkabout);
     parent.classList.remove('popup_is-opened');
     onInputButton(childButton, false);
+    forma.reset();
   }
   if (forma === document.personal) {
-    userInfo.updateUserInfo();
-    userInfo.setUserInfo();
+    userInfo.updateUserInfo(userData);
+    userInfo.setUserInfo(userData);
     parent.classList.remove('popup_is-opened');
     onInputButton(childButton, false);
   }  

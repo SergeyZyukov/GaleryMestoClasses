@@ -1,19 +1,19 @@
 class UserInfo {
-  constructor(userName, userAbout) {
-    this.userName = userName;
-    this.userAbout = userAbout;
-    this.topSecret = [];
-  }
+  constructor(userData) {
+    this.userData = userData;
+    this.userData.userName = userData.userName;
+    this.userData.userAbout = userData.userAbout;
+    this.userInfoName = document.querySelector('.user-info__name');
+    this.userInfoJob = document.querySelector('.user-info__job');
+  } 
   
-  setUserInfo() {    
-    this.topSecret.push(this.userName, this.userAbout);
-  }
+  setUserInfo(userData) { 
+    this.userData = userData;
+  } 
   
-  updateUserInfo() {
-    const userInfoName = document.querySelector('.user-info__name');
-    const userInfoJob = document.querySelector('.user-info__job');
-    userInfoJob.textContent = this.userAbout;
-    userInfoName.textContent = this.userName;
+  updateUserInfo(userData) {
+    this.userData = userData;   
+    this.userInfoJob.textContent = this.userData.userAbout;
+    this.userInfoName.textContent = this.userData.userName;  
   }
 } 
-
