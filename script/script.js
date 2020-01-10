@@ -1,26 +1,13 @@
-
-const popup = new Popup(document.querySelector('.popup-list'));
-
-const formValidator = new FormValidator(document.forms);
-
+/* eslint-disable no-undef */
+const formValidatorForUser = (...args) => new FormValidator(...args);
+const formValidator = new FormValidator();
 const createCard = (...args) => new Card(...args);
-
 const fotoSet = new PlacesList(document.querySelector('.places-list'), createCard);
-
 fotoSet.render(initialCards);
-
 const userInfo = new UserInfo({});
-
-/* Кнопка актив/дизактив */
-function onInputButton(button, onOff) {
-  if (onOff) {
-    button.removeAttribute('disabled');
-    button.classList.add('popup__button_isactiv');
-  } else {
-    button.setAttribute('disabled', false);
-    button.classList.remove('popup__button_isactiv');
-  }
-}
+const popupUserProfile = new UserProfilePopup(document.querySelector('.popup__personal'), formValidatorForUser);
+const popupNewPlace = new NewPlacePopup(document.querySelector('.popup__place'));
+const popupScrImage = new ScrImagePopup(document.querySelector('.popup__scrplacecard'));
 
 /* Обработчик submit на формах */
 function submitHandlerForm(event) {
@@ -29,78 +16,47 @@ function submitHandlerForm(event) {
   const parent = event.target.closest('.popup');
   const forma = event.target.closest('.popup__form');
   const name = event.target.elements.name.value;
-  const linkabout = event.target.elements.linkabout.value;
+  const link = event.target.elements.linkabout.value;
   const userData = {
-    userName: name,
-    userAbout: linkabout
+    name,
+    link
   };
-    
+  
   if (forma === document.newPlace) {
-    fotoSet.addCard(name, linkabout);
+    fotoSet.addCard(userData);
+    popupNewPlace.close(parent);
     parent.classList.remove('popup_is-opened');
-    onInputButton(childButton, false);
+    formValidator.setSubmitButtonState(childButton, false);
     forma.reset();
   }
   if (forma === document.personal) {
-    userInfo.updateUserInfo(userData);
     userInfo.setUserInfo(userData);
-    parent.classList.remove('popup_is-opened');
-    onInputButton(childButton, false);
+    userInfo.updateUserInfo(userData);    
+    popupUserProfile.close(parent);
+    formValidator.setSubmitButtonState(childButton, false);
   }  
 } 
 
 function defineOutputErrorString(lineValue) {
-  const errorOutPutName = document.querySelector('.error__name');
-  const errorOutPutPersonal = document.querySelector('.error__personal');
-  const errorOutPutLink = document.querySelector('.error__link');
-  const errorOutPutAbout = document.querySelector('.error__about');
+  const errorName = document.querySelector('.error__name');
+  const errorPersonal = document.querySelector('.error__personal');
+  const errorLink = document.querySelector('.error__link');
+  const errorAbout = document.querySelector('.error__about');
 
   if (lineValue.classList.contains('popup__input_type_name')) {
-    return errorOutPutName;
+    return errorName;
   }
   if (lineValue.classList.contains('popup__input_type_link-url')) {
-    return errorOutPutLink;
+    return errorLink;
   }
   if (lineValue.classList.contains('popup__input_type_personal')) {
-    return errorOutPutPersonal;
+    return errorPersonal;
   }
   if (lineValue.classList.contains('popup__input_type_about')) {
-    return errorOutPutAbout;
+    return errorAbout;
   }
   return false;
-}
-
-function validationEmptyAndLength(errorOut, inputstringvalueForm) {
-  if (formValidator.validInputStringEmpty(inputstringvalueForm, errorOut) && formValidator.validInputStringLength(inputstringvalueForm, errorOut)) {
-    return true;
-  }
-  return false;
-}
-
-function validationFormPlace(errorOut, formButton, inputstringvalueForm) {
-  if (errorOut.classList.contains('error__name')) {
-    if (validationEmptyAndLength(errorOut, inputstringvalueForm)) {
-      onInputButton(formButton, false);
-    }
-  } else if (errorOut.classList.contains('error__link')) {
-    onInputButton(formButton, false);
-    if (formValidator.validInputStringIsLink(inputstringvalueForm)) {
-      onInputButton(formButton, true);      
-    }
-  }
-}
-
-function validationFormPersonal(errorOut, formButton, inputstringvalueForm) {
-  if (errorOut.classList.contains('error__personal')) {
-    if (validationEmptyAndLength(errorOut, inputstringvalueForm)) {
-      onInputButton(formButton, false);
-    }
-  } else if (errorOut.classList.contains('error__about')) {
-    if (validationEmptyAndLength(errorOut, inputstringvalueForm)) {
-      onInputButton(formButton, true);
-    }
-  }
-}
+} 
 
 /* обработчик input в формах */
 function inputHandlerForms(event) {
@@ -111,23 +67,13 @@ function inputHandlerForms(event) {
   const inputstringvalue = inputLine.value;
   const errorOutPut = defineOutputErrorString(inputLine);
 
-  onInputButton(button, false);
-  if (forma === document.newPlace) {
-    validationFormPlace(errorOutPut, button, inputstringvalue);
-  }
-  if (forma === document.personal) {
-    validationFormPersonal(errorOutPut, button, inputstringvalue);
-  }
-}
-
-const popupInputName = document.querySelector('.popup__input_type_name');
-const popupInputLinkUrl = document.querySelector('.popup__input_type_link-url');
-const popupInputPersonal = document.querySelector('.popup__input_type_personal');
-const popupInputAbout = document.querySelector('.popup__input_type_about');
+  formValidator.checkInputValidity(errorOutPut, button, inputstringvalue);
+  
+} 
 
 document.forms.personal.addEventListener('submit', submitHandlerForm);
 document.forms.newPlace.addEventListener('submit', submitHandlerForm);
-popupInputPersonal.addEventListener('input', inputHandlerForms);
-popupInputAbout.addEventListener('input', inputHandlerForms);
-popupInputName.addEventListener('input', inputHandlerForms);
-popupInputLinkUrl.addEventListener('input', inputHandlerForms);
+document.querySelector('.popup__input_type_personal').addEventListener('input', inputHandlerForms);
+document.querySelector('.popup__input_type_about').addEventListener('input', inputHandlerForms);
+document.querySelector('.popup__input_type_name').addEventListener('input', inputHandlerForms);
+document.querySelector('.popup__input_type_link-url').addEventListener('input', inputHandlerForms);

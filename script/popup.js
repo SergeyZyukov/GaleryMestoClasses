@@ -1,60 +1,17 @@
+// eslint-disable-next-line no-unused-vars
 class Popup {
-  constructor(popupcontainer) {
-    this.popupcontainer = popupcontainer;
-      
-    const buttonPlace = document.querySelector('.button-user-info__set');
-    const buttonEdit = document.querySelector('.button-edit__set');
-    const buttonPlaceClose = document.querySelector('.popup-place__close');
-    const buttonPersonalClose = document.querySelector('.popup_personal__close');
-    const buttonScrClose = document.querySelector('.popup-scrplacecard__close');
-    const placesList = document.querySelector('.places-list'); 
-             
-    buttonScrClose.addEventListener('click', this.popupsClose);
-    buttonEdit.addEventListener('click', this.editpopupOpen);
-    buttonPlaceClose.addEventListener('click', this.popupsClose);
-    buttonPersonalClose.addEventListener('click', this.popupsClose);
-    placesList.addEventListener('click', this.scrPopupOpen);
-    buttonPlace.addEventListener('click', this.placePopupOpen);
+  constructor(element) {
+    this.element = element;     
+    this.close = this.close.bind(this); 
+    this.closeButton = this.element.querySelector('.popup__close');
+    this.closeButton.addEventListener('click', this.close);
   }
-  
-  scrPopupOpen(evt) {
-    this.elem = evt.target;
-    const imagelink = document.querySelector('.imagelink');
-    const screenPlaceCard = document.querySelector('.popup__scrplacecard'); 
-    if (this.elem.classList.contains('place-card__image')) {
-      screenPlaceCard.classList.toggle('popup_is-opened');
-      imagelink.setAttribute('src', this.elem.style.backgroundImage.slice(5, -2));
-    }
-  } 
-  
-  placePopupOpen() {  
-    const parentNewPlace = document.forms.newPlace.closest('.popup');
-    if (this.classList.contains('button-user-info__set')) {
-      parentNewPlace.classList.toggle('popup_is-opened');
-    } 
+
+  open() {
+    this.element.classList.add('popup_is-opened');
   }
-  
-  editpopupOpen() {
-    const parentPersonal = document.forms.personal.closest('.popup');
-    if (this.classList.contains('button-edit__set')) {
-      parentPersonal.classList.toggle('popup_is-opened');
-      onInputButton(parentPersonal.querySelector('.popup__button'), true);
-    } 
-  }
-  
-  popupsClose() {    
-    this.parentPopup = this.closest('.popup');
-    const screenPlaceCard = document.querySelector('.popup__scrplacecard');
-    const forma = this.parentPopup.querySelector('.popup__form');
-    const formValidator = new FormValidator(forma);
-    if (this.classList.contains('popup__close')) {
-      if (this.parentPopup.classList.contains('popup__scrplacecard')) {
-        screenPlaceCard.classList.remove('popup_is-opened');
-      } else {
-        formValidator.resetErrors(forma);
-        this.parentPopup.querySelector('.popup__form').reset();
-        this.parentPopup.classList.remove('popup_is-opened');
-      }
-    }
+
+  close() {
+    this.element.classList.remove('popup_is-opened');
   }
 }

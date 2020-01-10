@@ -1,22 +1,24 @@
+// eslint-disable-next-line no-unused-vars
 class PlacesList {
   constructor(container, createCard) {
     this.createCard = createCard;
-    //console.log('PlacesList createCard', this.createCard);
-    this.container = container;    
+    this.container = container; 
+    this.render = this.render.bind(this); 
+    this.addCard = this.addCard.bind(this); 
   }  
   
-  addCard(name, link) {
-    //console.log('name and link===>', name, link);
-    const card = this.createCard({ name, link }); 
+  addCard(userData) {
+    this.userData = userData;
+    const card = this.createCard(this.userData); 
     const cardElement = card.create();
-    //console.log('cardElement ==>', cardElement);
     this.container.appendChild(cardElement);
+    // eslint-disable-next-line no-underscore-dangle
     card._installHandlers(cardElement);    
   }
   
   render(initialCards) {
     initialCards.forEach((item) => {
-      this.addCard(item.name, item.link); 
+      this.addCard(item);
     });
   }
 }

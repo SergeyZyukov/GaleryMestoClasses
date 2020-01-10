@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 class Card {
   constructor(cardData) {  
     this.cardData = cardData;  
     this.link = this.cardData.link;
     this.name = this.cardData.name;
-    this.like = this.like.bind(this);//не совсем понял эту привязку, но так this в методах в контексте класса
-    this.remove = this.remove.bind(this);//не уверен, что правильно реализовал Ваше замечание
+    this.like = this.like.bind(this);// не совсем понял эту привязку, но так this в методах определенно в контексте класса
+    this.remove = this.remove.bind(this);// не уверен, что правильно реализовал Ваше замечание
   }
   
   create() {
@@ -25,18 +26,19 @@ class Card {
     return placeCard;
   }
 
+  // eslint-disable-next-line no-underscore-dangle
   _installHandlers(targetCard) {
     targetCard.querySelector('.place-card__like-icon').addEventListener('click', this.like);
     targetCard.querySelector('.place-card__delete-icon').addEventListener('click', this.remove);
   }
   
-  like() {
-    this.eventLike = event.currentTarget;
+  like(evt) {
+    this.eventLike = evt.currentTarget;
     this.eventLike.classList.toggle('place-card__like-icon_liked');
   }  
   
-  remove() {
-    this.cardToRemove = event.target.parentElement.parentElement;
+  remove(evt) {
+    this.cardToRemove = evt.target.parentElement.parentElement;
     this.cardToRemove.parentElement.removeChild(this.cardToRemove);    
   } 
 }

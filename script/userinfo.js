@@ -1,8 +1,7 @@
+// eslint-disable-next-line no-unused-vars
 class UserInfo {
   constructor(userData) {
     this.userData = userData;
-    this.userData.userName = userData.userName;
-    this.userData.userAbout = userData.userAbout;
     this.userInfoName = document.querySelector('.user-info__name');
     this.userInfoJob = document.querySelector('.user-info__job');
   } 
@@ -11,9 +10,8 @@ class UserInfo {
     this.userData = userData;
   } 
   
-  updateUserInfo(userData) {
-    this.userData = userData;   
-    this.userInfoJob.textContent = this.userData.userAbout;
-    this.userInfoName.textContent = this.userData.userName;  
+  updateUserInfo() {
+    this.userInfoJob.textContent = this.userData.link;
+    this.userInfoName.textContent = this.userData.name;  
   }
 } 
