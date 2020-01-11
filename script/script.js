@@ -37,38 +37,15 @@ function submitHandlerForm(event) {
   }  
 } 
 
-function defineOutputErrorString(lineValue) {
-  const errorName = document.querySelector('.error__name');
-  const errorPersonal = document.querySelector('.error__personal');
-  const errorLink = document.querySelector('.error__link');
-  const errorAbout = document.querySelector('.error__about');
-
-  if (lineValue.classList.contains('popup__input_type_name')) {
-    return errorName;
-  }
-  if (lineValue.classList.contains('popup__input_type_link-url')) {
-    return errorLink;
-  }
-  if (lineValue.classList.contains('popup__input_type_personal')) {
-    return errorPersonal;
-  }
-  if (lineValue.classList.contains('popup__input_type_about')) {
-    return errorAbout;
-  }
-  return false;
-} 
-
 /* обработчик input в формах */
 function inputHandlerForms(event) {
   event.preventDefault();
-  const inputLine = event.target;
+  const inputLine = event.target;    
   const forma = inputLine.closest('.popup__form');
   const button = forma.querySelector('.popup__button');
-  const inputstringvalue = inputLine.value;
-  const errorOutPut = defineOutputErrorString(inputLine);
-
-  formValidator.checkInputValidity(errorOutPut, button, inputstringvalue);
-  
+  const inputstringvalue = inputLine.value; 
+  const errorOutPut = formValidator.defineOutputErrorString(inputLine);
+  formValidator.checkInputValidity(errorOutPut, button, inputstringvalue);  
 } 
 
 document.forms.personal.addEventListener('submit', submitHandlerForm);

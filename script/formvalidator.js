@@ -2,7 +2,10 @@
 class FormValidator {
   constructor() {   
     this.errorStrings = document.querySelectorAll('.errors');
-    this.errorlink = document.querySelector('.error__link');
+    this.errorLink = document.querySelector('.error__link');
+    this.errorName = document.querySelector('.error__name');
+    this.errorPersonal = document.querySelector('.error__personal');
+    this.errorAbout = document.querySelector('.error__about');
     this.errorOutputStrings = {
       validationLenght: 'Должно быть от 2 до 30 символов',
       validationEmpty: 'Это обязательное поле',
@@ -22,6 +25,24 @@ class FormValidator {
     }
   }
 
+  defineOutputErrorString(lineValue) {
+    this.lineValue = lineValue;
+  
+    if (this.lineValue.classList.contains('popup__input_type_name')) {
+      return this.errorName;
+    }
+    if (this.lineValue.classList.contains('popup__input_type_link-url')) {
+      return this.errorLink;
+    }
+    if (this.lineValue.classList.contains('popup__input_type_personal')) {
+      return this.errorPersonal;
+    }
+    if (this.lineValue.classList.contains('popup__input_type_about')) {
+      return this.errorAbout;
+    }
+    return false;
+  } 
+
   resetErrors() {
     this.errorStrings.forEach((item) => {
       item.textContent = '';
@@ -32,10 +53,10 @@ class FormValidator {
     this.inputString = inputString;
     const teststr = /(^https?:\/\/)/;
     if (!teststr.test(this.inputString)) {
-      this.errorlink.textContent = this.errorOutputStrings.validationLink;
+      this.errorLink.textContent = this.errorOutputStrings.validationLink;
       return false;
     }
-    this.errorlink.textContent = '';
+    this.errorLink.textContent = '';
     return true;
   }
 
