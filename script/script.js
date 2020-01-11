@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const formValidatorForUser = (...args) => new FormValidator(...args);
 const formValidator = new FormValidator();
@@ -37,20 +38,5 @@ function submitHandlerForm(event) {
   }  
 } 
 
-/* обработчик input в формах */
-function inputHandlerForms(event) {
-  event.preventDefault();
-  const inputLine = event.target;    
-  const forma = inputLine.closest('.popup__form');
-  const button = forma.querySelector('.popup__button');
-  const inputstringvalue = inputLine.value; 
-  const errorOutPut = formValidator.defineOutputErrorString(inputLine);
-  formValidator.checkInputValidity(errorOutPut, button, inputstringvalue);  
-} 
-
 document.forms.personal.addEventListener('submit', submitHandlerForm);
 document.forms.newPlace.addEventListener('submit', submitHandlerForm);
-document.querySelector('.popup__input_type_personal').addEventListener('input', inputHandlerForms);
-document.querySelector('.popup__input_type_about').addEventListener('input', inputHandlerForms);
-document.querySelector('.popup__input_type_name').addEventListener('input', inputHandlerForms);
-document.querySelector('.popup__input_type_link-url').addEventListener('input', inputHandlerForms);

@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+
 class UserProfilePopup extends Popup {
   constructor(element, formValidatorUser) {
     super(element);

@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+
 class NewPlacePopup extends Popup {
   constructor(element) {
     super(element);

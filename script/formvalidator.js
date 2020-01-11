@@ -2,6 +2,7 @@
 class FormValidator {
   constructor() {   
     this.errorStrings = document.querySelectorAll('.errors');
+    this.inputHandlerForms = this.inputHandlerForms.bind(this);
     this.errorLink = document.querySelector('.error__link');
     this.errorName = document.querySelector('.error__name');
     this.errorPersonal = document.querySelector('.error__personal');
@@ -10,19 +11,15 @@ class FormValidator {
       validationLenght: 'Должно быть от 2 до 30 символов',
       validationEmpty: 'Это обязательное поле',
       validationLink: 'Здесь должна быть ссылка'
-    };    
-  }
-
-  setSubmitButtonState(button, onOff) {
-    this.button = button;
-    this.onOff = onOff;
-    if (this.onOff) {
-      this.button.removeAttribute('disabled');
-      this.button.classList.add('popup__button_isactiv');
-    } else {
-      this.button.setAttribute('disabled', false);
-      this.button.classList.remove('popup__button_isactiv');
-    }
+    }; 
+    this.personal = document.querySelector('.popup__input_type_personal');
+    this.about = document.querySelector('.popup__input_type_about');
+    this.name = document.querySelector('.popup__input_type_name');
+    this.linkurl = document.querySelector('.popup__input_type_link-url');
+    this.personal.addEventListener('input', this.inputHandlerForms);
+    this.about.addEventListener('input', this.inputHandlerForms);
+    this.name.addEventListener('input', this.inputHandlerForms);
+    this.linkurl.addEventListener('input', this.inputHandlerForms);  
   }
 
   defineOutputErrorString(lineValue) {
@@ -42,6 +39,28 @@ class FormValidator {
     }
     return false;
   } 
+
+  inputHandlerForms(event) {
+    event.preventDefault();
+    this.inputLine = event.target; 
+    this.forma = this.inputLine.closest('.popup__form');
+    this.button = this.forma.querySelector('.popup__button');
+    this.inputstringvalue = this.inputLine.value; 
+    this.errorOutPut = this.defineOutputErrorString(this.inputLine);
+    this.checkInputValidity(this.errorOutPut, this.button, this.inputstringvalue);  
+  } 
+
+  setSubmitButtonState(button, onOff) {
+    this.button = button;
+    this.onOff = onOff;
+    if (this.onOff) {
+      this.button.removeAttribute('disabled');
+      this.button.classList.add('popup__button_isactiv');
+    } else {
+      this.button.setAttribute('disabled', false);
+      this.button.classList.remove('popup__button_isactiv');
+    }
+  }  
 
   resetErrors() {
     this.errorStrings.forEach((item) => {
