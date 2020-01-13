@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 class FormValidator {
   constructor() {   
-    this.errorStrings = document.querySelectorAll('.errors');
     this.inputHandlerForms = this.inputHandlerForms.bind(this);
     this.errorLink = document.querySelector('.error__link');
     this.errorName = document.querySelector('.error__name');
@@ -16,13 +14,14 @@ class FormValidator {
     this.about = document.querySelector('.popup__input_type_about');
     this.name = document.querySelector('.popup__input_type_name');
     this.linkurl = document.querySelector('.popup__input_type_link-url');
+    
     this.personal.addEventListener('input', this.inputHandlerForms);
     this.about.addEventListener('input', this.inputHandlerForms);
     this.name.addEventListener('input', this.inputHandlerForms);
     this.linkurl.addEventListener('input', this.inputHandlerForms);  
   }
 
-  defineOutputErrorString(lineValue) {
+  _defineOutputErrorString(lineValue) {
     this.lineValue = lineValue;
   
     if (this.lineValue.classList.contains('popup__input_type_name')) {
@@ -46,7 +45,7 @@ class FormValidator {
     this.forma = this.inputLine.closest('.popup__form');
     this.button = this.forma.querySelector('.popup__button');
     this.inputstringvalue = this.inputLine.value; 
-    this.errorOutPut = this.defineOutputErrorString(this.inputLine);
+    this.errorOutPut = this._defineOutputErrorString(this.inputLine);
     this.checkInputValidity(this.errorOutPut, this.button, this.inputstringvalue);  
   } 
 
@@ -61,12 +60,6 @@ class FormValidator {
       this.button.classList.remove('popup__button_isactiv');
     }
   }  
-
-  resetErrors() {
-    this.errorStrings.forEach((item) => {
-      item.textContent = '';
-    });
-  }
 
   validInputStringIsLink(inputString) {
     this.inputString = inputString;

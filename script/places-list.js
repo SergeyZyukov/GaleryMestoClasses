@@ -12,8 +12,7 @@ class PlacesList {
     const card = this.createCard(this.userData); 
     const cardElement = card.create();
     this.container.appendChild(cardElement);
-    // eslint-disable-next-line no-underscore-dangle
-    card._installHandlers(cardElement);    
+    card.installHandlers(cardElement);    
   }
   
   render(initialCards) {

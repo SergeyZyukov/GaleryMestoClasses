@@ -1,9 +1,9 @@
-// eslint-disable-next-line no-unused-vars
 class Popup {
   constructor(element) {
     this.element = element;     
     this.close = this.close.bind(this); 
-    this.closeButton = this.element.querySelector('.popup__close');
+    this.errorStrings = document.querySelectorAll('.errors');
+    this.closeButton = this.element.querySelector('.popup__close');    
     this.closeButton.addEventListener('click', this.close);
   }
 
@@ -12,6 +12,9 @@ class Popup {
   }
 
   close() {
-    this.element.classList.remove('popup_is-opened');
+    this.errorStrings.forEach((item) => {
+      item.textContent = '';
+    });  
+    this.element.classList.remove('popup_is-opened');    
   }
 }

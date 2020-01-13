@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-
 class ScrImagePopup extends Popup {
   constructor(element) {
     super(element);
