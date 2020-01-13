@@ -1,13 +1,10 @@
-class Card {
-  
-  constructor(cardData) {
- 
+class Card {  
+  constructor(cardData) { 
     this.cardData = cardData;  
     this.link = this.cardData.link;
     this.name = this.cardData.name;
     this.like = this.like.bind(this);
-    this.remove = this.remove.bind(this);
-    
+    this.remove = this.remove.bind(this);    
   }
   
   create() {
@@ -28,7 +25,6 @@ class Card {
     placeCardname.textContent = this.name;
     return placeCard;
   }
-
  
   installHandlers(targetCard) {
     targetCard.querySelector('.place-card__like-icon').addEventListener('click', this.like);
@@ -40,8 +36,7 @@ class Card {
     this.eventLike.classList.toggle('place-card__like-icon_liked');
   }  
   
-  remove(evt) {
-   
+  remove(evt) {   
     this.cardToRemove = evt.target.parentElement.parentElement;
     this.cardToRemove.parentElement.removeChild(this.cardToRemove);  
   } 

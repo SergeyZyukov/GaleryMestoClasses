@@ -37,7 +37,6 @@ function submitHandlerForm(event) {
   }  
 } 
 
-
 document.forms.personal.addEventListener('submit', submitHandlerForm);
 document.forms.newPlace.addEventListener('submit', submitHandlerForm);
 

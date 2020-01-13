@@ -12,12 +12,8 @@ class ScrImagePopup extends Popup {
   scrPopupOpen(evt) {
     this.elem = evt.target;
     if (this.elem.classList.contains('place-card__image')) {
-      super.open(super.element);     
+      super.open();     
       this.imagelink.setAttribute('src', this.elem.style.backgroundImage.slice(5, -2));
     }    
-  }
-  
-  scrPopupClose() {
-    super.close(super.element);
-  }
+  }  
 }

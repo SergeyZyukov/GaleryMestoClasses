@@ -12,6 +12,6 @@ class UserProfilePopup extends Popup {
   editPopupOpen() {
     const formValid = this.formValidatorUser();
     formValid.setSubmitButtonState(this.submitButton, true);     
-    super.open(super.element);     
+    super.open();     
   } 
 }

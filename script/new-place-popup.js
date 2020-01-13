@@ -11,6 +11,6 @@ class NewPlacePopup extends Popup {
 
   placePopupOpen() {
     this.form.reset();
-    super.open(super.element);
+    super.open();
   } 
 }
