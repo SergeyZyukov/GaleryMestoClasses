@@ -6,6 +6,7 @@
     },
     "extends": ["airbnb/base"],
     "rules": {
+        "func-names": "off",
         "max-classes-per-file": "off",       
         "semi": "error",
         "no-underscore-dangle": "off",

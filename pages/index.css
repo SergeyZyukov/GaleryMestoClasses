@@ -11,6 +11,7 @@
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/scrplacecard/scrplacecard.css);
 @import url(../blocks/errors/errors.css);
+@import url(../blocks/button/button-up.css);
 
 body {
   background-color: #000;

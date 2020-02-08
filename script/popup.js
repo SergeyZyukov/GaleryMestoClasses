@@ -11,7 +11,7 @@ class Popup {
     this.element.classList.add('popup_is-opened');
   }
 
-  close() {
+  close() {     
     this.errorStrings.forEach((item) => {
       item.textContent = '';
     });  

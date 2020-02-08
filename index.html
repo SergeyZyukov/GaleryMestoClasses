@@ -11,6 +11,8 @@
 
 <body>
   <div class="root">
+    <div class="arrowup"></div>
+    <div class="arrowdown"></div>
     <header class="header root__section">
       <img src="./images/logo.svg" alt="mesto logo" class="logo">
     </header>
@@ -18,8 +20,12 @@
       <div class="user-info">
         <div class="user-info__photo"></div>
         <div class="user-info__data">
-          <h1 class="user-info__name">Jaques Causteau</h1>
-          <p class="user-info__job">Sailor, Researcher</p>
+          <h1 class="user-info__name">
+            <!-- Jaques Causteau -->
+          </h1>
+          <p class="user-info__job">
+            <!-- Sailor, Researcher -->
+          </p>
         </div>
         <button class="button button-edit__set button-edit__position">Edit</button>
         <button class="button button-user-info__set button-user-info__position">+</button>
@@ -32,32 +38,40 @@
       <div class="popup popup__place">
         <div class="popup__content">
           <h3 class="popup__title">Новое место</h3>
+
           <form class="popup__form" name="newPlace" novalidate>
             <input type="text" autocomplete="off" name="name" class="popup__input popup__input_type_name"
               placeholder="Название" novalidate>
-            <span class="errors errors__form error__name up-errors__form "></span>
+            <span class="errors errors__form error__words up-errors__form "></span>
+
             <input type="text" autocomplete="off" name="linkabout" class="popup__input popup__input_type_link-url"
               placeholder="Ссылка на картинку" novalidate>
             <span class="errors errors__form error__link low-errors__form"></span>
+
             <button type="submit" class="button popup__button" disabled>+</button>
             <img src="./images/close.svg" alt="" class="popup__close popup-place__close">
           </form>
+
         </div>
       </div>
 
       <div class="popup popup__personal">
         <div class="popup__content">
           <h3 class="popup__title">Редактировать профиль</h3>
+
           <form class="popup__form" name="personal" novalidate>
             <input type="text" autocomplete="off" name="name" class="popup__input popup__input_type_personal"
               placeholder="Имя" value="Jaques Causteau" novalidate>
-            <span class="errors errors__form error__personal up-errors__form"></span>
+            <span class="errors errors__form error__words up-errors__form"></span>
+
             <input type="text" autocomplete="off" name="linkabout" class="popup__input popup__input_type_about"
               placeholder="О себе" value="Sailor, Researcher" novalidate>
-            <span class="errors errors__form error__about low-errors__form"></span>
+            <span class="errors errors__form error__words low-errors__form"></span>
+
             <button type="submit" class="button popup__button save__button" disabled>Сохранить</button>
             <img src="./images/close.svg" alt="" class="popup__close popup_personal__close">
           </form>
+
         </div>
       </div>
 
@@ -67,19 +81,47 @@
           <img src="./images/close.svg" alt="" class="popup__close popup-scrplacecard__close">
         </div>
       </div>
-    </div>
 
-    <script src="/script/card.js"></script>
-    <script src="/script/places-list.js"></script>
-    <script src="/script/popup.js"></script>
-    <script src="/script/user-profile-popup.js"></script>
-    <script src="/script/new-place-popup.js"></script>
-    <script src="/script/scr-image-popup.js"></script> 
-    <script src="/script/user-info.js"></script>
-    <script src="/script/form-validator.js"></script>
-    <script src="/script/first-set-cards.js"></script>      
-    <script src="/script/script.js"></script>
-    
+      <div class="popup popup__avatar">
+        <div class="popup__content">
+          <h3 class="popup__title">Редактирование аватара</h3>
+
+          <form class="popup__form" name="avatar" novalidate>
+            <input type="text" autocomplete="off" name="linkabout" class="popup__input popup__input_type_link-url"
+              placeholder="Ссылка на картинку" novalidate>
+            <span class="errors errors__form error__link up-errors__form"></span>
+            <button type="submit" class="button popup__button" disabled>Сохранить</button>
+            <img src="./images/close.svg" alt="" class="popup__close popup-place__close">
+          </form>
+        </div>
+      </div>
+
+        <div class="popup popup__confirmation">
+          <div class="popup__content popup__content-confirmation">
+            <h3 class="popup__title">Вы действительно хотите удалить эту карточку?</h3> 
+            <form class="popup__form" name="confirmation" novalidate>           
+            <button type="submit" name="yes" class="button popup__button popup__button_isactiv" disabled>Удалить</button>
+            <button type="submit" name="no" class="button popup__button popup__button_isactiv" disabled>Отменить</button>
+            <img src="./images/close.svg" alt="" class="popup__close popup-place__close">
+          </form>       
+          </div>
+        </div>
+
+      </div>
+
+      <script src="script/Api.js" defer></script>
+      <script src="script/Card.js" defer></script>
+      <script src="script/CardList.js" defer></script>
+      <script src="script/Popup.js" defer></script>
+      <script src="script/Confirmation.js" defer></script>
+      <script src="script/Avatar.js" defer></script>
+      <script src="script/UserProfilePopup.js" defer></script>
+      <script src="script/NewPlacePopup.js" defer></script>
+      <script src="script/ScrImagePopup.js" defer></script>
+      <script src="script/UserInfo.js" defer></script>
+      <script src="script/FormValidator.js" defer></script>
+      <script src="script/script.js" defer></script>
+
 </body>
 
 </html>

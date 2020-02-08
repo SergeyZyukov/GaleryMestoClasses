@@ -6,6 +6,7 @@
 @import url(./__button/popup__button.css);
 @import url(./_is-opened/popup_is-opened.css);
 @import url(../scrplacecard/scrplacecard.css);
+@import url(../popup/__content/popup__content-confirmation.css);
 
 .popup {
   position: fixed;

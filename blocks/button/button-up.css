@@ -1,0 +1,43 @@
+.arrowup {    
+    position: fixed;
+    right: 20px;
+    bottom: 40px;
+    height: 36px;
+    width: 36px;
+    background-image: url(../../images/arrow-up.png);
+    background-repeat: no-repeat;
+    background-size: 36px 36px ;
+    background-position: right bottom ;
+    text-align: center;
+    border-radius: 18px;
+    background-color: #ffffff;
+    cursor: pointer;
+    opacity: 0.3;
+}
+     
+.arrowup:hover {
+    opacity: 1; /*уровень прозрачности при наведении*/
+    }
+
+.arrowdown {
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    height: 36px;
+    width: 36px;
+    background-image: url(../../images/arrow-up.png);
+    background-repeat: no-repeat;
+    background-size: 36px 36px;
+    background-position: right bottom;
+    text-align: center;
+    border-radius: 18px;
+    background-color: #ffffff;
+    cursor: pointer;
+    opacity: 0.3;
+    transform: rotate(180deg);
+    }
+
+.arrowdown:hover {
+    opacity: 1;
+        /*уровень прозрачности при наведении*/
+    }

@@ -1,9 +1,14 @@
 .place-card__like-icon {
-  background: url(../../../images/like-inactive.svg) center no-repeat;
-  background-color: transparent;
-  border: none;
+  display: flex;
+  flex-direction: column; 
+  background: url(../../../images/like-inactive.svg) top no-repeat;
+  background-color: transparent; 
+  padding-top: 20px;
+  justify-content: center; 
+  align-items: center; 
   width: 21px;
-  height: 19px;
+  height: 30px; 
+  /* margin-top: 10%; */
   cursor: pointer;
   transition: transform .3s linear;
 }
