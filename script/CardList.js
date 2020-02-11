@@ -1,20 +1,22 @@
 class CardList {
-  constructor(container, createCard, apiInitialCards, confirm) {
+  constructor(container, createCard, apiInitialCards, confirmDelCard) {
     this.apiInitialCards = apiInitialCards;
     this.createCard = createCard;
-    this.confirm = confirm;
+    this.confirmDelCard = confirmDelCard;
     this.container = container; 
     this._render = this._render.bind(this); 
+    this.confirmDelete = this.confirmDelete.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
     this.likeCard = this.likeCard.bind(this);
     this.initialCards = []; 
     this.userInfoName = document.querySelector('.user-info__name');
+    this.cardToRemove = {};
   } 
   
   _setDeleteListener(targetCard) {
-    this.targetCard = targetCard;
+    this.targetCard = targetCard;       
     if (targetCard.querySelector('.place-card__delete-icon') !== null) { 
-      targetCard.querySelector('.place-card__delete-icon').addEventListener('click', this.deleteCard);
+      targetCard.querySelector('.place-card__delete-icon').addEventListener('click', this.confirmDelete);
     }   
   }
 
@@ -59,23 +61,28 @@ class CardList {
           card.like(this.cardToLike, data.likes.length);      
         });
     }        
-  } 
-
-  deleteCard(isEvent) {
-    
-    this.confirm.confirmPopupOpen();
-    this.confirm.yesButtonHandler();    
-    
-    
-    // eslint-disable-next-line no-alert
-    if (this.confirm.yesButtonHandler(event)/* window.confirm('Вы действительно хотите удалить эту карточку?') */) {
-      this.cardToRemove = isEvent.target.parentElement.parentElement;          
-      const card = this.createCard({});
-      this.id = this.cardToRemove.getAttribute('data-id'); this.apiInitialCards.delCard(this.id)
-        .then(() => {          
-          card.remove(this.cardToRemove); 
-        });              
-    }
+  }
+  
+  confirmDelete(onEvent) {   
+    this.onEvent = onEvent.target;   
+    this.cardToRemove = this.onEvent.parentElement.parentElement;     
+    this.yesDelete = document.querySelector('.popup__confirmation button');    
+    this.confirmDelCard.confirmPopupOpen();    
+    this.yesDelete.addEventListener('click', this.deleteCard);
+  }
+  
+  deleteCard(onEvent) {
+    onEvent.preventDefault();    
+    /*  if (window.confirm('Вы действительно хотите удалить эту карточку?')) { */
+    /* this.cardToRemove = isEvent.target.parentElement.parentElement;   */          
+    const card = this.createCard({});
+    this.id = this.cardToRemove.getAttribute('data-id'); 
+    this.apiInitialCards.delCard(this.id)
+      .then(() => {
+        this.confirmDelCard.close();         
+        card.remove(this.cardToRemove); 
+      });              
+    /*  } */ 
   }
 
   addCard(userDataCards) {

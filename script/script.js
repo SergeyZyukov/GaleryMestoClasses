@@ -5,7 +5,8 @@
   const popupPlace = document.querySelector('.popup__place');
   const popupScr = document.querySelector('.popup__scrplacecard');
   const popupAvatar = document.querySelector('.popup__avatar');
-  const popupConfirmation = document.querySelector('.popup__confirmation');  
+  const popupConfirmation = document.querySelector('.popup__confirmation'); 
+   
   
   const errorWarningsArr = {
     validationLenght: 'Должно быть от 2 до 30 символов',
@@ -23,9 +24,9 @@
    
   const api = new Api(config);
   const createCard = (...args) => new Card(...args);
-  const popupConfirm = new Confirmation(popupConfirmation);
-  const fotoSet = new CardList(container, createCard, api, popupConfirm);
-  const firstFotoSet = new CardList(container, createCard, api, popupConfirm);
+  const confirm = new Confirmation(popupConfirmation);
+  const fotoSet = new CardList(container, createCard, api, confirm);
+  const firstFotoSet = new CardList(container, createCard, api, confirm);
   firstFotoSet.firstSetCards();
   const formValidatorForUser = new FormValidator(errorWarningsArr);
   const formValidatorForPlace = new FormValidator(errorWarningsArr);
@@ -39,7 +40,7 @@
   const popupNewPlace = new NewPlacePopup(popupPlace, formValidatorForPlace);  
   const displayImage = new ScrImagePopup(popupScr);
   const popupAva = new Avatar(popupAvatar, formValidatorForAvatar, api); 
-  
+
   const scrollElemUp = document.querySelector('.arrowup');
   const scrollElemDown = document.querySelector('.arrowdown');  
   
@@ -87,6 +88,7 @@
   document.forms.personal.addEventListener('submit', submitHandlerPersonal);
   document.forms.newPlace.addEventListener('submit', submitHandlerNewPlace);
   popupAvatar.addEventListener('submit', popupAva.submitAvatar);
+  
 
   container.addEventListener('click', displayImage.scrPopupOpen);
   scrollElemUp.addEventListener('click', goUp);

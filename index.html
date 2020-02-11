@@ -99,11 +99,10 @@
         <div class="popup popup__confirmation">
           <div class="popup__content popup__content-confirmation">
             <h3 class="popup__title">Вы действительно хотите удалить эту карточку?</h3> 
-            <form class="popup__form" name="confirmation" novalidate>           
-            <button type="submit" name="yes" class="button popup__button popup__button_isactiv" disabled>Удалить</button>
-            <button type="submit" name="no" class="button popup__button popup__button_isactiv" disabled>Отменить</button>
+            <div class="popup__form" name="confirmation">           
+            <button name="yes" class="button popup__button  popup__button_isactiv">Удалить</button>
             <img src="./images/close.svg" alt="" class="popup__close popup-place__close">
-          </form>       
+            </div>       
           </div>
         </div>
 
@@ -113,7 +112,7 @@
       <script src="script/Card.js" defer></script>
       <script src="script/CardList.js" defer></script>
       <script src="script/Popup.js" defer></script>
-      <script src="script/Confirmation.js" defer></script>
+      <script src="script/Confirmation.js" defer></script>      
       <script src="script/Avatar.js" defer></script>
       <script src="script/UserProfilePopup.js" defer></script>
       <script src="script/NewPlacePopup.js" defer></script>
