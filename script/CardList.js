@@ -87,8 +87,8 @@ class CardList {
 
   addCard(userDataCards) {
     this.userDataCards = userDataCards;   
-    const card = this.createCard(this.userDataCards);
-    const cardElement = card.create();
+    const card = this.createCard(this.userDataCards);// экзкмпляр класса Card
+    const cardElement = card.create(); // создаем карточку и пишем ее в cardElement
     this.container.appendChild(cardElement);   
     this.name = card.userInfoName.textContent;
     /* render my own likes */ 
@@ -101,15 +101,15 @@ class CardList {
     this._setDeleteListener(cardElement);   
   }
 
-  postNewCard(userData) {
-    this.userData = userData;
-    this.name = userData.name;
-    this.link = userData.link;
+  /* postNewCard(userData) {
+    this.userData = userData;    
+    this.name = this.userData.name;
+    this.link = this.userData.link;
     this.apiInitialCards.setNewCard(this.name, this.link)
       .then((data) => {
         this.addCard(data);
       });      
-  }  
+  }  */ 
   
   _render(initialCards) {
     this.initialCards = this._arrayHandler(initialCards);    
