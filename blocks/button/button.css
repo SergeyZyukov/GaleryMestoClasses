@@ -5,8 +5,7 @@
 
 .button {
   background-color: transparent;
-  color: white;
-  display: block;
+  color: white;  
   cursor: pointer;
   font-family: 'Inter';
   font-style: normal;
@@ -15,6 +14,7 @@
 
 
 
-.button:focus {
+.button:focus {  
   outline-color: greenyellow;
+ 
 }

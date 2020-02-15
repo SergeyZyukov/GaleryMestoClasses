@@ -1,11 +1,14 @@
-(function () {
+(function () {  
   /* eslint-disable no-undef */  
   const container = document.querySelector('.places-list');
   const popupPersonal = document.querySelector('.popup__personal');
   const popupPlace = document.querySelector('.popup__place');
   const popupScr = document.querySelector('.popup__scrplacecard');
   const popupAvatar = document.querySelector('.popup__avatar');
-  const popupConfirmation = document.querySelector('.popup__confirmation');  
+  const popupConfirmation = document.querySelector('.popup__confirmation');
+  const scrollElemUp = document.querySelector('.arrowup');
+  const scrollElemDown = document.querySelector('.arrowdown');
+
   const errorWarningsArr = {
     ru: {
       validationLenght: 'Должно быть от 2 до 30 символов',
@@ -13,84 +16,50 @@
       validationLink: 'Здесь должна быть ссылка'
     }
   };
-  
+
   const config = {
     baseUrl: 'http://95.216.175.5/cohort8',
     headers: {
       authorization: 'ab1f5d7b-d19e-4687-bf7d-6ba28ced174d',
       'Content-Type': 'application/json' 
     }
-  }; 
+  };   
    
   const api = new Api(config);
   const createCard = (...args) => new Card(...args);
-  const confirm = new Confirmation(popupConfirmation);
-  const fotoSet = new CardList(container, createCard, api, confirm);
-  const firstFotoSet = new CardList(container, createCard, api, confirm);
-  firstFotoSet.firstSetCards();
-  const formValidatorForUser = new FormValidator(errorWarningsArr.ru);
-  const formValidatorForPlace = new FormValidator(errorWarningsArr.ru);
-  const formValidatorForAvatar = new FormValidator(errorWarningsArr.ru);
-  const formValidator = new FormValidator(errorWarningsArr);  
-    
+  const confirm = () => new Confirmation(popupConfirmation);
+  const cardList = () => new CardList({
+    container, createCard, api, confirm 
+  });
+  const firstFotoSet = new CardList({
+    container, createCard, api, confirm 
+  });  
+  const formValidator = () => new FormValidator(errorWarningsArr.ru);     
   const userInfo = new UserInfo({}, api);
-  userInfo.updateUserInfo();
- 
-  const popupUserProfile = new UserProfilePopup(popupPersonal, formValidatorForUser, userInfo);
-  const popupNewPlace = new NewPlacePopup(popupPlace, formValidatorForPlace, api, fotoSet);  
-  const displayImage = new ScrImagePopup(popupScr);
-  const popupAva = new Avatar(popupAvatar, formValidatorForAvatar, api); 
+  const userInformation = () => new UserInfo({}, api);
 
-  const scrollElemUp = document.querySelector('.arrowup');
-  const scrollElemDown = document.querySelector('.arrowdown');  
+  /* have to new all popups */
+  const popupUserProfile = new UserProfilePopup({ 
+    popupPersonal, formValidator, userInformation 
+  });
+  const popupNewPlace = new NewPlacePopup({
+    popupPlace, formValidator, api, cardList 
+  });  
+  const popupDisplayImage = new ScrImagePopup({ popupScr, container });
+  const popupAva = new Avatar({ popupAvatar, formValidator, api });
+
+  /* start dysplay */
+  userInfo.updateUserInfo();
+  firstFotoSet.firstSetCards();  
   
   function goUp() {
     window.scrollTo(0, 0);    
   }
 
   function goDown() {    
-    window.scrollTo(0, document.body.scrollHeight);   
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
-  function submitHandlerPersonal(event) {
-    event.preventDefault();
-    const childButton = event.target.querySelector('.button');
-    const name = event.target.elements.name.value;
-    const link = event.target.elements.linkabout.value;
-    const userData = {
-      name,
-      link
-    };
-        
-    userInfo.setUserInfo(userData);
-    userInfo.updateUserInfo(userData);    
-    popupUserProfile.close();
-    formValidator.setSubmitButtonState(childButton, false);
-  } 
-
-  /* Обработчик submit на форме newPlace */
-  /* function submitHandlerNewPlace(event) {
-    event.preventDefault();
-    const childButton = event.target.querySelector('.button');
-    const forma = event.target.closest('.popup__form');   
-    const name = event.target.elements.name.value;
-    const link = event.target.elements.linkabout.value;
-    const userData = {
-      name,
-      link
-    };
-    fotoSet.postNewCard(userData);   
-    popupNewPlace.close();    
-    formValidator.setSubmitButtonState(childButton, false);
-    forma.reset();    
-  }    */
-
-  document.forms.personal.addEventListener('submit', submitHandlerPersonal);
-  // document.forms.newPlace.addEventListener('submit', submitHandlerNewPlace);
-  popupAvatar.addEventListener('submit', popupAva.submitAvatar);
-  
-
-  container.addEventListener('click', displayImage.scrPopupOpen);
   scrollElemUp.addEventListener('click', goUp);
   scrollElemDown.addEventListener('click', goDown);
 }());

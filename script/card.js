@@ -49,7 +49,7 @@ class Card {
   }  
   
   remove(cardToRemove) {   
-    this.cardToRemove = cardToRemove;       
-    this.cardToRemove.parentElement.removeChild(this.cardToRemove);  
+    this.cardToRemove = cardToRemove;           
+    this.cardToRemove.remove()/* Child(this.cardToRemove) */;  
   } 
 }

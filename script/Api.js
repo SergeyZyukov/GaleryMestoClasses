@@ -3,6 +3,24 @@ class Api {
   constructor(options) {
     this.options = options;
   }
+
+  _arrayHandler(params) {
+    this.params = params;
+    this.initialCards = [];
+    this.params.forEach((item) => {      
+      const {
+        name, link, _id, owner, likes 
+      } = item; 
+      const obj = {};
+      obj.name = name;
+      obj.link = link;
+      obj._id = _id;
+      obj.owner = owner;
+      obj.likes = likes;
+      this.initialCards.push(obj);       
+    });      
+    return this.initialCards;
+  }
     
   getInitialCards() {
     return fetch(`${this.options.baseUrl}/cards`, {
@@ -14,6 +32,7 @@ class Api {
         }         
         return Promise.reject(`Ошибка: ${res.status}`);
       })
+      .then((data) => this._arrayHandler(data))
       .catch((err) => {
         console.log(err);
       });  
@@ -29,20 +48,29 @@ class Api {
         }         
         return Promise.reject(`Ошибка: ${res.status}`);
       })
+      .then((data) => {       
+        const { name, about, avatar } = data; 
+        const obj = {};
+        obj.name = name;
+        obj.about = about;
+        obj.avatar = avatar;                
+        return obj;
+      })
       .catch((err) => {
         console.log(err);
       }); 
   }
 
-  setUserInfo(name, job) {
-    this.name = name;
-    this.job = job;
+  setUserInfo(dataInfo) {
+    this.dataInfo = dataInfo;
+    this.nameInfo = this.dataInfo.name;
+    this.jobInfo = this.dataInfo.about;
     return fetch(`${this.options.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this.options.headers,
       body: JSON.stringify({
-        name: `${this.name}`,
-        about: `${this.job}`
+        name: `${this.nameInfo}`,
+        about: `${this.jobInfo}`
       }) 
     }) 
       .then((res) => {
@@ -51,20 +79,27 @@ class Api {
         }         
         return Promise.reject(`Ошибка: ${res.status}`);
       })
+      .then((data) => {       
+        const { name, about, avatar } = data; 
+        const obj = {};
+        obj.name = name;
+        obj.about = about; 
+        obj.avatar = avatar;               
+        return obj;
+      })
       .catch((err) => {
         console.log(err);
       });   
   }  
 
-  setNewCard(name, link) {
-    this.name = name;
-    this.link = link;
+  setNewCard(dataCard) {
+    this.dataCard = dataCard;   
     return fetch(`${this.options.baseUrl}/cards`, {
       method: 'POST',
       headers: this.options.headers,
       body: JSON.stringify({
-        name: `${this.name}`,
-        link: `${this.link}`
+        name: `${this.dataCard.name}`,
+        link: `${this.dataCard.link}`
       })
     })
       .then((res) => {
@@ -72,6 +107,19 @@ class Api {
           return res.json();
         }         
         return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      /* using resolve data for render. Get ID, owner and likes for further use */
+      .then((data) => {
+        const obj = {};
+        const {
+          name, link, _id, owner, likes 
+        } = data;         
+        obj.name = name;
+        obj.link = link;
+        obj._id = _id;
+        obj.owner = owner;
+        obj.likes = likes;         
+        return obj;
       })
       .catch((err) => {
         console.log(err);
@@ -90,6 +138,7 @@ class Api {
         }         
         return Promise.reject(res);
       })
+      // dont need resolve data for using
       .catch((err) => {
         console.log(err);
       });            
@@ -107,6 +156,7 @@ class Api {
         }         
         return Promise.reject(`Ошибка: ${res.status}`);
       })
+      .then((data) => data.likes.length) // length for counter
       .catch((err) => {
         console.log(err);
       });   
@@ -124,18 +174,19 @@ class Api {
         }         
         return Promise.reject(`Ошибка: ${res.status}`);
       })
+      .then((data) => data.likes.length) // length for counter
       .catch((err) => {
         console.log(err);
       });   
   }
 
-  setAvatar(avaRef) {
-    this.avaRef = avaRef;
+  setAvatar(avatarRef) {       
+    this.avatarRef = avatarRef;
     return fetch(`${this.options.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this.options.headers,
       body: JSON.stringify({      
-        avatar: `${this.avaRef}`
+        avatar: `${this.avatarRef}`
       }) 
     }) 
       .then((res) => {
@@ -144,6 +195,7 @@ class Api {
         }         
         return Promise.reject(`Ошибка: ${res.status}`);
       })
+      .then((data) => data.avatar) // avatar reference
       .catch((err) => {
         console.log(err);
       });

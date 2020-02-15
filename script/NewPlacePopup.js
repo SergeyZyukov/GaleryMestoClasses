@@ -1,10 +1,12 @@
 /* eslint-disable no-undef */
 class NewPlacePopup extends Popup {
-  constructor(element, placeFormValidator, api, fotoSet) {
-    super(element);
-    this.fotoSet = fotoSet; 
+  constructor({
+    popupPlace, formValidator, api, cardList 
+  }) {
+    super(popupPlace);
+    this.cardList = cardList; 
     this.api = api;  
-    this.placeFormValidator = placeFormValidator;
+    this.validator = formValidator;
     this.placePopupOpen = this.placePopupOpen.bind(this);
     this.form = document.newPlace;
     this.submitHandlerNewPlace = this.submitHandlerNewPlace.bind(this);
@@ -13,25 +15,26 @@ class NewPlacePopup extends Popup {
   }
 
   placePopupOpen() {
-    this.placeFormValidator.inputListenerHanger(this.form);
+    const validator = this.validator();
+    validator.inputListenerHanger(this.form);
     this.form.reset();
     super.open();
     this.form.addEventListener('submit', this.submitHandlerNewPlace);
   } 
 
-  postNewCard(userData) {
-    this.userData = userData;    
-    this.name = this.userData.name;
-    this.link = this.userData.link;
-    this.api.setNewCard(this.name, this.link)
-      .then((data) => {
-        this.fotoSet.addCard(data);
+  postNewCard(userDataCard) {
+    this.userDataCard = userDataCard;   
+    this.api.setNewCard(this.userDataCard)
+      .then((dataCard) => {
+        const cardList = this.cardList();
+        cardList.addCard(dataCard);
       });      
   } 
 
   submitHandlerNewPlace(event) {
     event.preventDefault();
-    this.event = event;
+    const validator = this.validator();
+    this.event = event;    
     this.childButton = this.form.querySelector('.button');
     this.name = this.event.target.elements.name.value;
     this.link = this.event.target.elements.linkabout.value;
@@ -41,7 +44,7 @@ class NewPlacePopup extends Popup {
     };
     this.postNewCard(this.userData);   
     super.close();    
-    this.placeFormValidator.setSubmitButtonState(this.childButton, false);
+    validator.setSubmitButtonState(this.childButton, false);
     this.form.reset();    
   }   
 }

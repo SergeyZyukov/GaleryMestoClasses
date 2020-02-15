@@ -1,10 +1,11 @@
 /* eslint-disable no-undef */
 class ScrImagePopup extends Popup {
-  constructor(element) {
-    super(element);
-    this.closePopup = this.element.querySelector('.popup__close');
+  constructor({ popupScr, container }) {
+    super(popupScr);
+    this.container = container;    
     this.scrPopupOpen = this.scrPopupOpen.bind(this);
     this.imagelink = document.querySelector('.imagelink');
+    this.container.addEventListener('click', this.scrPopupOpen);
   }
   
   scrPopupOpen(evt) {

@@ -1,14 +1,15 @@
 class CardList {
-  constructor(container, createCard, apiInitialCards, confirmDelCard) {
-    this.apiInitialCards = apiInitialCards;
+  constructor({
+    container, createCard, api, confirm 
+  }) {
+    this.apiInitialCards = api;
     this.createCard = createCard;
-    this.confirmDelCard = confirmDelCard;
+    this.confirmDelCard = confirm;// кастомное модальное окно подтверждения удаления
     this.container = container; 
     this._render = this._render.bind(this); 
     this.confirmDelete = this.confirmDelete.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
-    this.likeCard = this.likeCard.bind(this);
-    this.initialCards = []; 
+    this.likeCard = this.likeCard.bind(this);     
     this.userInfoName = document.querySelector('.user-info__name');
     this.cardToRemove = {};
   } 
@@ -25,23 +26,6 @@ class CardList {
     if (targetCard.querySelector('.place-card__like-icon') !== null) { 
       targetCard.querySelector('.place-card__like-icon').addEventListener('click', this.likeCard);
     }   
-  } 
-
-  _arrayHandler(params) {
-    this.params = params;
-    this.params.forEach((item) => {      
-      const {
-        name, link, _id, owner, likes 
-      } = item; 
-      const obj = {};
-      obj.name = name;
-      obj.link = link;
-      obj._id = _id;
-      obj.owner = owner;
-      obj.likes = likes;
-      this.initialCards.push(obj);       
-    });      
-    return this.initialCards;
   }
 
   likeCard(isEvent) {
@@ -51,38 +35,34 @@ class CardList {
     const card = this.createCard({});
     if (this.cardToLike.classList.contains('place-card__like-icon_liked')) {
       this.apiInitialCards.delLike(this.id)
-        .then((data) => {
-          const count = data.likes.length;                
+        .then((count) => {                        
           card.like(this.cardToLike, count); 
         });
     } else {
       this.apiInitialCards.setLike(this.id)
-        .then((data) => {                            
-          card.like(this.cardToLike, data.likes.length);      
-        });
+        .then((likes) => card.like(this.cardToLike, likes));
     }        
   }
   
   confirmDelete(onEvent) {   
-    this.onEvent = onEvent.target;   
-    this.cardToRemove = this.onEvent.parentElement.parentElement;     
-    this.yesDelete = document.querySelector('.popup__confirmation button');    
-    this.confirmDelCard.confirmPopupOpen();    
+    this.onEventTarget = onEvent.target;   
+    this.cardToRemove = this.onEventTarget.parentElement.parentElement;     
+    this.yesDelete = document.querySelector('.popup__confirmation button');
+    const confirmDel = this.confirmDelCard();    
+    confirmDel.confirmPopupOpen();    
     this.yesDelete.addEventListener('click', this.deleteCard);
   }
   
   deleteCard(onEvent) {
-    onEvent.preventDefault();    
-    /*  if (window.confirm('Вы действительно хотите удалить эту карточку?')) { */
-    /* this.cardToRemove = isEvent.target.parentElement.parentElement;   */          
+    onEvent.preventDefault();          
     const card = this.createCard({});
     this.id = this.cardToRemove.getAttribute('data-id'); 
     this.apiInitialCards.delCard(this.id)
       .then(() => {
-        this.confirmDelCard.close();         
+        const confirmDel = this.confirmDelCard();
+        confirmDel.close();         
         card.remove(this.cardToRemove); 
-      });              
-    /*  } */ 
+      });    
   }
 
   addCard(userDataCards) {
@@ -100,19 +80,9 @@ class CardList {
     this._setLikeListener(cardElement);
     this._setDeleteListener(cardElement);   
   }
-
-  /* postNewCard(userData) {
-    this.userData = userData;    
-    this.name = this.userData.name;
-    this.link = this.userData.link;
-    this.apiInitialCards.setNewCard(this.name, this.link)
-      .then((data) => {
-        this.addCard(data);
-      });      
-  }  */ 
   
   _render(initialCards) {
-    this.initialCards = this._arrayHandler(initialCards);    
+    this.initialCards = initialCards;
     this.initialCards.forEach((item) => {      
       this.addCard(item);
     });  
